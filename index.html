@@ -178,6 +178,54 @@
         .submit-button:hover {
             background-color: #005F6B;
         }
+
+
+        a {
+            color: black; /* Warna teks tautan */
+            text-decoration: none; /* Menghilangkan garis bawah */
+            font-weight: bold; /* Menebalkan teks */
+        }
+
+        a:hover {
+            color: blue; /* Warna teks saat hover */
+            text-decoration: underline; /* Menambahkan garis bawah saat hover */
+        }
+
+        a:active {
+            color: #2C6C40; /* Warna teks saat diklik */
+        }
+
+        a:visited {
+            color: #3B8C2A; /* Warna teks setelah dikunjungi */
+        }
+
+        a:focus {
+            outline: 2px solid #4CAF50; /* Garis sekitar tautan saat difokuskan */
+            outline-offset: 2px; /* Jarak antara outline dan elemen */
+        }
+
+        .qwe {
+            text-align: center;
+            color: black; /* Warna teks untuk elemen qwe menjadi hitam */
+            text-decoration: none; /* Menghilangkan garis bawah pada link */
+            display: block; /* Menjadikan elemen sebagai blok agar seluruh area bisa diklik */
+            margin-top: 20px; /* Jarak dari elemen lainnya */
+            padding: 10px; /* Padding untuk membuat area klik lebih besar */
+            background: white; /* Warna latar belakang */
+            border-radius: 4px; /* Border radius untuk sudut */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Bayangan lembut */
+            transition: background 0.3s ease, color 0.3s ease; /* Transisi halus */
+        }
+
+        .qwe:hover {
+            background-color: blue; /* Warna latar belakang saat hover */
+            color: #fff; /* Warna teks saat hover */
+        }
+
+        .qwe:focus {
+            outline: 2px solid #4CAF50; /* Garis sekitar tautan saat difokuskan */
+            outline-offset: 2px; /* Jarak antara outline dan elemen */
+        }
     </style>
 </head>
 <body>
@@ -317,6 +365,7 @@
         <button class="copy-button" onclick="copyReport()">Salin Laporan</button>
         <button class="share-button" onclick="shareViaWhatsApp()">Bagikan ke Bu Hestika</button>
         <button class="share-button" onclick="shareToWhatsApp()">Bagikan ke Group</button>
+        <a href="https://instagram.com/crazy_couple23_" class="qwe" >Untuk info aplikasi Klik : @crazy_couple23_</a>
 
     </div>
 
