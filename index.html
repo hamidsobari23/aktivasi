@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Sales Report</title>
+    <style>
+        body {
+            background-color: lightgray;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .report {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h1, h2 {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem 0;
+            margin: 0;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        .form-section {
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .form-section .section-title {
+            grid-column: span 2;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .form-section label {
+            margin-bottom: 5px;
+        }
+
+        .form-section input[type="number"], 
+        .form-section input[type="date"] {
+            width: calc(100% - 20px);
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        .form-section button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            width: 100%; /* Menggunakan width 100% untuk memenuhi lebar form-section */
+            box-sizing: border-box; /* Membuat padding dan border tidak menambah lebar tombol */
+        }
+
+        .form-section button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        #reportOutput {
+            display: none;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            background-image: url('p2.jpeg'); /* Sesuaikan dengan gambar yang ingin digunakan */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            text-align: center;
+            color: white;
+        }
+
+        #reportOutput.show {
+            display: block;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .category-total {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .copy-button {
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .copy-button:hover {
+            background-color: #005F6B;
+        }
+
+        .share-button {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .share-button:hover {
+            background-color: #005F6B;
+        }
+
+
+        .submit-button {
+            background-color:maroon;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .submit-button:hover {
+            background-color: #005F6B;
+        }
+    </style>
+</head>
+<body>
+    <div class="report">
+        <h1>MINI URBAN PONDOK INDAH</h1>
+        <h2>Daily Sales Report</h2><br>
+
+        <form id="salesForm" onsubmit="generateReport(event)">
+            <div class="form-section">
+                <label for="tanggal">Tanggal Laporan:</label>
+                <input type="date" id="tanggal" name="tanggal" required>
+
+                <div class="section-title">CASH</div>
+                <div>
+                    <label for="currentCash">Uang Saat Ini</label>
+                    <input type="number" id="currentCash" name="currentCash" required>
+                </div>
+
+                <div class="section-title">SNACK</div>
+                <div>
+                    <label for="popMieAyam">Pop Mie Ayam</label>
+                    <input type="number" id="popMieAyam" name="popMieAyam">
+                </div>
+                <div>
+                    <label for="popMieKariAyam">Pop Mie Kari Ayam</label>
+                    <input type="number" id="popMieKariAyam" name="popMieKariAyam">
+                </div>
+                <div>
+                    <label for="popMieSoto">Pop Mie Soto</label>
+                    <input type="number" id="popMieSoto" name="popMieSoto">
+                </div>
+                <div>
+                    <label for="popMieBaso">Pop Mie Baso</label>
+                    <input type="number" id="popMieBaso" name="popMieBaso">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="section-title">DRINK</div>
+                <div>
+                    <label for="pocari">Pocari</label>
+                    <input type="number" id="pocari" name="pocari">
+                </div>
+                <div>
+                    <label for="floridinaOri">Floridina Ori</label>
+                    <input type="number" id="floridinaOri" name="floridinaOri">
+                </div>
+                <div>
+                    <label for="floridinaCoco">Floridina Coco</label>
+                    <input type="number" id="floridinaCoco" name="floridinaCoco">
+                </div>
+                <div>
+                    <label for="cleo">Cleo</label>
+                    <input type="number" id="cleo" name="cleo">
+                </div>
+                <div>
+                    <label for="tehPucuk">Teh Pucuk</label>
+                    <input type="number" id="tehPucuk" name="tehPucuk">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="section-title">OBAT-OBAT</div>
+                <div>
+                    <label for="maduNusantara">Madu Nusantara</label>
+                    <input type="number" id="maduNusantara" name="maduNusantara">
+                </div>
+                <div>
+                    <label for="maduEnak">Madu Enak</label>
+                    <input type="number" id="maduEnak" name="maduEnak">
+                </div>
+                <div>
+                    <label for="maduRasaJeruk">Madu Rasa Jeruk</label>
+                    <input type="number" id="maduRasaJeruk" name="maduRasaJeruk">
+                </div>
+                <div>
+                    <label for="laserin">Laserin</label>
+                    <input type="number" id="laserin" name="laserin">
+                </div>
+                <div>
+                    <label for="xonce">Xonce</label>
+                    <input type="number" id="xonce" name="xonce">
+                </div>
+                <div>
+                    <label for="herbamuno">Herbamuno</label>
+                    <input type="number" id="herbamuno" name="herbamuno">
+                </div>
+                <div>
+                    <label for="woods">Woods</label>
+                    <input type="number" id="woods" name="woods">
+                </div>
+                <div>
+                    <label for="promah">Promag</label>
+                    <input type="number" id="promah" name="promah">
+                </div>
+                <div>
+                    <label for="salonPasJel">Salon Pas Jel</label>
+                    <input type="number" id="salonPasJel" name="salonPasJel">
+                </div>
+                <div>
+                    <label for="sofel">Sofel</label>
+                    <input type="number" id="sofel" name="sofel">
+                </div>
+            </div>
+
+            <button type="submit" class="submit-button">Generate Report</button>
+        </form>
+
+        <div id="reportOutput">
+            <div>MINI URBAN PONDOK INDAH</div>
+            <div id="reportTitle"></div>
+            <div class="section-title">Today || Mtd</div>
+            <br>
+            <div class="section">
+                <div id="cashOutput"></div>
+                <div id="totalSalesOutput"></div>
+                <div>QRIS : Rp.  Rp.</div>
+                <div id="totalSalesWithCashOutput"></div>
+            </div><br>
+            <div class="section">
+                <div class="section-title">*SNACK*</div>
+                <div id="snackOutput"></div>
+                <div class="category-total" id="totalSnackOutput"></div>
+            </div><br>
+            <div class="section">
+                <div class="section-title">*DRINK*</div>
+                <div id="drinkOutput"></div>
+                <div class="category-total" id="totalDrinkOutput"></div>
+            </div><br>
+            <div class="section">
+                <div class="section-title">*OBAT-OBAT*</div>
+                <div id="obatOutput"></div>
+                <div class="category-total" id="totalObatOutput"></div>
+            </div>
+        </div>
+
+        <button class="copy-button" onclick="copyReport()">Salin Laporan</button>
+        <button class="share-button" onclick="shareViaWhatsApp()">Bagikan ke Bu Hestika</button>
+        <button class="share-button" onclick="shareToWhatsApp()">Bagikan ke Group</button>
+
+    </div>
+
+    <script>
+        function generateReport(event) {
+            event.preventDefault();
+
+            // Prices of items
+            const prices = {
+                popMieAyam: 10000,
+                popMieKariAyam: 10000,
+                popMieSoto: 10000,
+                popMieBaso: 10000,
+                pocari: 10000,
+                floridinaOri: 6000,
+                floridinaCoco: 6000,
+                cleo: 5000,
+                tehPucuk: 5000,
+                maduNusantara: 4000,
+                maduEnak: 4000,
+                maduRasaJeruk: 4000,
+                laserin: 3500,
+                xonce: 3500,
+                herbamuno: 14000,
+                woods: 7000,
+                promah: 3500,
+                salonPasJel: 9000,
+                sofel: 10000
+            };
+
+            // Retrieve input values
+            const popMieAyam = document.getElementById('popMieAyam').value || '0';
+            const popMieKariAyam = document.getElementById('popMieKariAyam').value || '0';
+            const popMieSoto = document.getElementById('popMieSoto').value || '0';
+            const popMieBaso = document.getElementById('popMieBaso').value || '0';
+
+            const pocari = document.getElementById('pocari').value || '0';
+            const floridinaOri = document.getElementById('floridinaOri').value || '0';
+            const floridinaCoco = document.getElementById('floridinaCoco').value || '0';
+            const cleo = document.getElementById('cleo').value || '0';
+            const tehPucuk = document.getElementById('tehPucuk').value || '0';
+
+            const maduNusantara = document.getElementById('maduNusantara').value || '0';
+            const maduEnak = document.getElementById('maduEnak').value || '0';
+            const maduRasaJeruk = document.getElementById('maduRasaJeruk').value || '0';
+            const laserin = document.getElementById('laserin').value || '0';
+            const xonce = document.getElementById('xonce').value || '0';
+            const herbamuno = document.getElementById('herbamuno').value || '0';
+            const woods = document.getElementById('woods').value || '0';
+            const promah = document.getElementById('promah').value || '0';
+            const salonPasJel = document.getElementById('salonPasJel').value || '0';
+            const sofel = document.getElementById('sofel').value || '0';
+
+            const currentCash = document.getElementById('currentCash').value || '0';
+            const tanggal = document.getElementById('tanggal').value || 'Tanggal Belum di Input';
+            const reportTitle = document.getElementById('reportTitle');
+            reportTitle.innerText = `Daily Sales Report - ${tanggal}`;
+
+            // Calculate totals
+            const totalSnack = (
+                prices.popMieAyam * parseInt(popMieAyam) +
+                prices.popMieKariAyam * parseInt(popMieKariAyam) +
+                prices.popMieSoto * parseInt(popMieSoto) +
+                prices.popMieBaso * parseInt(popMieBaso)
+            );
+
+            const totalDrink = (
+                prices.pocari * parseInt(pocari) +
+                prices.floridinaOri * parseInt(floridinaOri) +
+                prices.floridinaCoco * parseInt(floridinaCoco) +
+                prices.cleo * parseInt(cleo) +
+                prices.tehPucuk * parseInt(tehPucuk)
+            );
+
+            const totalObat = (
+                prices.maduNusantara * parseInt(maduNusantara) +
+                prices.maduEnak * parseInt(maduEnak) +
+                prices.maduRasaJeruk * parseInt(maduRasaJeruk) +
+                prices.laserin * parseInt(laserin) +
+                prices.xonce * parseInt(xonce) +
+                prices.herbamuno * parseInt(herbamuno) +
+                prices.woods * parseInt(woods) +
+                prices.promah * parseInt(promah) +
+                prices.salonPasJel * parseInt(salonPasJel) +
+                prices.sofel * parseInt(sofel)
+            );
+
+            const totalSales = totalSnack + totalDrink + totalObat;
+            const totalSalesWithCash = totalSales + parseInt(currentCash);
+
+            // Set report output
+            document.getElementById('snackOutput').innerHTML = `
+                - Pop Mie Ayam : ${popMieAyam}<br>
+                - Pop Mie Kari Ayam : ${popMieKariAyam}<br>
+                - Pop Mie Soto : ${popMieSoto}<br>
+                - Pop Mie Baso : ${popMieBaso}
+            <br>`;
+            document.getElementById('totalSnackOutput').innerText = `*Total: Rp. ${totalSnack}*`;
+
+            document.getElementById('drinkOutput').innerHTML = `
+                - Pocari : ${pocari}<br>
+                - Floridina Ori : ${floridinaOri}<br>
+                - Floridina Coco : ${floridinaCoco}<br>
+                - Cleo : ${cleo}<br>
+                - Teh Pucuk : ${tehPucuk}
+            <br>`;
+            document.getElementById('totalDrinkOutput').innerText = `*Total: Rp. ${totalDrink}*`;
+
+            document.getElementById('obatOutput').innerHTML = `
+                - Madu Nusantara : ${maduNusantara}<br>
+                - Madu Enak : ${maduEnak}<br>
+                - Madu Rasa Jeruk : ${maduRasaJeruk}<br>
+                - Laserin : ${laserin}<br>
+                - Xonce : ${xonce}<br>
+                - Herbamuno : ${herbamuno}<br>
+                - Woods : ${woods}<br>
+                - Promah : ${promah}<br>
+                - Salon Pas Jel : ${salonPasJel}<br>
+                - Sofel : ${sofel}
+            `;
+            document.getElementById('totalObatOutput').innerText = `*Total: Rp. ${totalObat}*`;
+
+            // Update total sales and current cash
+            document.getElementById('totalSalesOutput').innerText = `Total Sales: Rp. ${totalSales}`;
+            document.getElementById('totalSalesWithCashOutput').innerText = `Total Sales with Cash: Rp. ${totalSalesWithCash}`;
+
+            // Show report
+            document.getElementById('reportOutput').classList.add('show');
+        }
+
+        function copyReport() {
+            const reportOutput = document.getElementById('reportOutput').innerText;
+            navigator.clipboard.writeText(reportOutput)
+                .then(() => alert('Laporan berhasil disalin!'))
+                .catch(err => console.error('Gagal menyalin laporan: ', err));
+        }
+
+
+
+        function shareViaWhatsApp() {
+    const reportOutput = document.getElementById('reportOutput').innerText;
+    const message = encodeURIComponent(reportOutput);
+    const whatsappURL = `https://wa.me/6281513381534?text=${message}`;
+    window.open(whatsappURL, '_blank');
+}
+
+function shareToWhatsApp() {
+    const reportOutput = document.getElementById('reportOutput').innerText;
+    const message = encodeURIComponent(reportOutput);
+    const whatsappURL = `https://chat.whatsapp.com/L6dRmnuyNtMAOlu3MrHYA8?text=${message}`;
+    window.open(whatsappURL, '_blank');
+}
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>
